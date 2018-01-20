@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>new password</title>
+        <title>new password</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,9 +25,16 @@
 								<label for="conformpassword">re-enter password</label>
 								<input type="password" class="form-control" name="pass1">
 							</div>
+							<div class="form-group">
 							<button class="btn btn-success btn-block" type="submit" name="submit">
 								Reset your password
 							</button>
+                        </div>
+							<div class="form-group">
+							<button class="btn btn-success btn-block" type="submit" name="login"><a href="login.php">
+                                login</a>
+							</button>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -41,25 +48,25 @@ mysqli_select_db($conn,"phpform");
 if(isset($_POST['submit']))
 {
 	$email=$_POST['email'];
-	$password=$_POST['pass'];
-	$password1=$_POST['pass1'];
-	$query="select * from user_table where EMAIL_ID='$email'";
+	$password=md5($_POST['pass']);
+	$password1=md5($_POST['pass1']);
+	$query="select * from us where user_email='$email'";
 	$run=mysqli_query($conn,$query);
 	if(mysqli_num_rows($run)==1){
 		if($password==$password1){
-			$sql="update user_table set PASSWORD='$password' where EMAIL_ID='$email'";
+			$sql="update us set user_pass='$password' where user_email='$email'";
 			if(mysqli_query($conn,$sql)){
 				echo "your password has changed successfully";
 			}
 		}
 		else
 		{
-			echo "re-enter your password";
+			echo "<script>alert('re-enter your password')</script>";
 		}
 	}
 	else
 	{
-		echo "your email does't exist";
+		echo "<script>alert('your email does't exist')</script>";
 	}
 }	
 ?>

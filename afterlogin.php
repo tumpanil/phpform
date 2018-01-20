@@ -45,10 +45,16 @@
 								<label for="file">upload your photo</label>
 								<input type="file" class="form-control" name="file">
 							</div>
-							
+							<div class="form-group">
 							<button class="btn btn-success btn-block" type="submit" name="submit">
 							submit
 							</button>
+                            </div>
+                            <div class="form-group">
+							<button class="btn btn-success btn-block" type="submit" name="submit">
+							<a href="login.php">logout</a>
+							</button>
+                            </div>
 						</form>
 					</div>
 				</div>

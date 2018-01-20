@@ -12,18 +12,18 @@
 				<div class="col-md-6 col-md-offset-3">
 					<h2 align="center">Create your account</h2>
 					<div class="well">
-						<form  action="newuser.php" method="post">
+						<form  method="post">
 							<div class="form-group">
 								<label for="name">name</label>
-								<input type="text" class="form-control" placeholder="enter your name" name="name">
+								<input type="text" class="form-control" placeholder="enter your name" name="name" required>
 							</div>
 							<div class="form-group">
 								<label for="email">email</label>
-								<input type="text" class="form-control" placeholder="enter your email" name="email">
+								<input type="email" class="form-control" placeholder="enter your email" name="email" required>
 							</div>
 							<div class="form-group">
 								<label for="password">password</label>
-								<input type="password" class="form-control" placeholder="enter your password" name="pass">
+								<input type="password" class="form-control" placeholder="enter your password" name="pass" required>
 							</div>
 							<button class="btn btn-success btn-block" type="submit" name="submit">
 							Create account
@@ -43,18 +43,20 @@ if(isset($_POST['submit']))
 {
 	$name=$_POST['name'];
 	$email=$_POST['email'];
-	$password=$_POST['pass'];
-	$query1="select * from user_table where EMAIL_ID='$email'";
+	$password=md5($_POST['pass']);
+	$query1="select * from us where user_email='$email'";
 	$run=mysqli_query($conn,$query1);
 	if(mysqli_num_rows($run)==1){
-		echo "email already exits";
+		echo "<script>alert('email already exits','_self')</script>";
 		exit();
 	}
 	else
 	{
-		$query="insert into user_table(EMAIL_ID,NAME,PASSWORD)values('$email','$name','$password')";
+		$query="insert into us(user_email,	user_name,user_pass)values('$email','$name',' $password')";
 		if(mysqli_query($conn,$query)){
-			echo "recorde successfully stored";
+            echo "<script>alert('you are registered successfully','afterlogin.php')</script>";
+			echo "<script>window.open('afterlogin.php','_self')</script>";
+            
 		}
 	}
 }

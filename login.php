@@ -1,3 +1,33 @@
+<?php
+	$conn=mysqli_connect("localhost","root","") or die("unable to connect");
+	mysqli_select_db($conn,'phpform');
+	if(isset($_POST['submit']))
+	{  
+		$email=$_POST['email'];
+		$password=md5($_POST['pass']);
+		
+		
+		 $query="select * from us where user_email='$email' and user_pass='$password' " ;
+		 $run=mysqli_query($conn,$query);
+		if(mysqli_num_rows($run)==1)
+		{
+			
+                
+            
+            
+				echo "<script>alert('login successful','_self')</script>";
+                echo "<script>window.open('afterlogin.php','_self')</script>";
+                
+			}
+			else{
+				  echo"<script>alert('enter correct password')</script>";
+			}
+			
+			
+    }
+	
+    
+?>
 <html>
 	<head>
 		<title>php form</title>
@@ -12,15 +42,15 @@
 				<div class="col-md-6 col-md-offset-3">
 				<h1 align="center">login</h1>
 					<div class="well">
-						<form  method="post">
+						<form  method="post" action="login.php">
 							<div class="form-group">
-								<label for="user-name">Username/Email</label>
-								<input type="text" class="form-control" name="email">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" name="email" required>
 								<?php echo @$_GET['name'];?>
 							</div>
 							<div class="form-group>	
 								<label for="password">Password<a href="forgotpassword.php" style="float:right">forgot password?</a></label>
-								<input type="password" class="form-control" name="pass">
+								<input type="password" class="form-control" name="pass" required>
 								<?php echo @$_GET['pass'];?>
 							</div>
 							<button class="btn btn-success btn-block" type="submit" name="submit" style="position:relative;top:15px">login</button>
@@ -33,43 +63,3 @@
 		</div>
 	</body>
 </html>
-<?php
-	$conn=mysqli_connect("localhost","root","");
-	mysqli_select_db($conn,"phpform");
-	if(isset($_POST['submit']))
-	{
-		$email=$_POST['email'];
-		$password=$_POST['pass'];
-		if($email=='')
-		{
-			echo "<script>window.open('login.php?name=name is required','_self')</script>";
-			exit();
-		}
-		if($password=='')
-		{
-			echo "<script>window.open('login.php?pass=enter password','_self')</script>";
-			exit();
-		}
-		$query="select * from user_table where EMAIL_ID='$email'";
-		$run=mysqli_query($conn,$query);
-		if(mysqli_num_rows($run)==1)
-		{
-			$query1="select * from user_table where EMAIL_ID='$email' and Password='$password'";
-			$run1=mysqli_query($conn,$query1);
-			if(mysqli_num_rows($run1)==1)
-			{
-				echo "<script>window.open('afterlogin.php','_self')</script>";
-			}
-			else{
-				  echo"<script>alert('enter correct password')</script>";
-			}
-			
-			
-		}
-		else
-		{
-			echo "user doesn't exist";
-		}
-	}
-
-?>
